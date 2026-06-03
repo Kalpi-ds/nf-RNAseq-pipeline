@@ -1,0 +1,7 @@
+sample,condition,replicate
+WT_rep1,WT,1
+WT_rep2,WT,2
+WT_rep3,WT,3
+DKO_rep1,DKO,1
+DKO_rep2,DKO,2
+DKO_rep3,DKO,3

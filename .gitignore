@@ -1,0 +1,62 @@
+# Nextflow work directory and outputs
+work/
+results/
+test_results/
+.nextflow/
+.nextflow.log*
+.nextflow.pid
+
+# Pipeline execution reports
+pipeline_info/
+
+# STAR genome index (large binary files — regenerate as needed)
+*/star_index/
+
+# conda envs
+.conda/
+*.egg-info/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Large data files (don't commit raw data)
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bam.bai
+*.sam
+*.vcf
+*.bcf
+*.bed
+
+# Reference files (too large for git)
+*.fa
+*.fasta
+*.fa.gz
+*.fasta.gz
+*.gtf
+*.gff
+*.gff3

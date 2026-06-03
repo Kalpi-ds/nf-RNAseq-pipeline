@@ -1,0 +1,57 @@
+# =============================================================================
+# Singularity.def — RNAseq-pipeline all-in-one container
+#
+# Before building, copy the Cluster 3.0 binary from the Whitehead system:
+#   cp /usr/local/bin/cluster /lab/BaRC_projects/kdesilva/Nextflow/RNAseq-pipeline/singularity_cache/
+#
+# Build (requires --fakeroot, no Docker needed):
+#   cd /lab/BaRC_projects/kdesilva/Nextflow/RNAseq-pipeline
+#   singularity build --fakeroot singularity_cache/kdesilva-rnaseqpipe-2.0.sif \
+#                                singularity_cache/Singularity.def
+# =============================================================================
+
+Bootstrap: library
+From: ubuntu:20.04
+
+%labels
+    Maintainer  kdesilva@wi.mit.edu
+    Version     2.0-portable
+    Description RNAseq-pipeline — fully self-contained (R + DESeq2 + Cluster 3.0 inside container)
+
+%files
+    environment.yml /opt/environment.yml
+    cluster /usr/local/bin/cluster
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -qq
+    apt-get install -y --no-install-recommends wget bzip2 ca-certificates build-essential
+
+    # Make Cluster 3.0 binary executable
+    chmod +x /usr/local/bin/cluster
+
+    # Install micromamba
+    wget -qO- https://micro.mamba.pm/api/micromamba/linux-64/latest \
+        | tar -xj -C /usr/local/bin/ --strip-components=1 bin/micromamba
+
+    export MAMBA_ROOT_PREFIX=/opt/conda
+
+    # Install all pipeline tools + R packages
+    micromamba install -y -p /opt/conda -c conda-forge -c bioconda \
+        python=3.10 pandas \
+        fastqc=0.12.1 trim-galore=0.6.10 multiqc=1.21 \
+        star=2.7.1a samtools=1.19 \
+        subread=2.0.6 rseqc \
+        r-base bioconductor-deseq2 bioconductor-vsn bioconductor-complexheatmap bioconductor-genefilter \
+        r-ggplot2 r-ggrepel r-pheatmap r-rcolorbrewer
+
+    micromamba clean --all --yes
+    apt-get clean
+
+%environment
+    export PATH=/opt/conda/bin:$PATH
+    export MAMBA_ROOT_PREFIX=/opt/conda
+    export LC_ALL=C
+
+%runscript
+    exec "$@"

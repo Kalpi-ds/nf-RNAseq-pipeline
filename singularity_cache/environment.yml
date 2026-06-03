@@ -1,0 +1,48 @@
+name: rnaseqpipe
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+
+dependencies:
+    # Python utilities
+    - python>=3.10
+    - pandas>=1.5
+
+    # QC
+    - fastqc=0.12.1
+    - trim-galore=0.6.10
+    - multiqc=1.21
+
+    # Alignment & BAM processing
+    - star=2.7.1a
+    - samtools=1.19
+
+    # Quantification
+    - subread=2.0.6      # includes featureCounts
+    - rseqc>=5.0.1       # includes infer_experiment.py
+
+    # R base
+    - r-base>=4.2
+
+    # Bioconductor packages
+    - bioconductor-deseq2>=1.38
+    - bioconductor-vsn
+    - bioconductor-complexheatmap
+    - bioconductor-genefilter
+
+    # R CRAN packages
+    - r-ggplot2
+    - r-ggrepel
+    - r-pheatmap
+    - r-rcolorbrewer
+
+    # Cluster 3.0 — NOT available as a conda package on any channel.
+    # It is compiled from source in the Singularity %post section.
+    # For the conda profile, install it manually: https://bonsai.hgc.jp/~mdehoon/software/cluster/
+
+# Create this environment:
+#   conda env create -f environment.yml
+#   conda activate rnaseqpipe
+#
+# Or let Nextflow manage it automatically with -profile conda.

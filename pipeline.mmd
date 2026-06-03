@@ -1,0 +1,62 @@
+%%metro title: RNAseq Pipeline
+%%metro style: dark
+%%metro legend: bl
+
+%%metro file: fastq_in | FASTQ
+%%metro file: html_out | HTML
+
+%%metro line: l1 | Trim + Auto Strandedness      | #E84E3C
+%%metro line: l2 | Trim + Manual Strandedness    | #F5A623
+%%metro line: l3 | No Trim + Auto Strandedness   | #7ED321
+%%metro line: l4 | No Trim + Manual Strandedness | #4A90D9
+%%metro line: l5 | With Differential Expression  | #B86FC6
+
+graph LR
+
+    subgraph preprocessing [Pre-processing]
+        fastq_in[ ]
+        fastqc_raw[FastQC Raw]
+        fastq_in -->|l1,l2,l3,l4,l5| fastqc_raw
+    end
+
+    subgraph trimming [Trimming]
+        trim_galore[Trim Galore]
+        fastqc_trim[FastQC Trimmed]
+        trim_galore -->|l1,l2| fastqc_trim
+    end
+
+    subgraph alignment [Alignment]
+        star[STAR Align]
+    end
+
+    subgraph strandedness [Strandedness]
+        infer[Infer Experiment]
+        manual[Manual Strandedness]
+    end
+
+    subgraph quantification [Quantification]
+        featurecounts[featureCounts]
+    end
+
+    subgraph de [Differential Expression]
+        deseq2[DESeq2]
+        pheatmap[Pheatmap]
+        deseq2 -->|l5| pheatmap
+    end
+
+    subgraph reporting [Reporting]
+        multiqc[MultiQC]
+        html_out[ ]
+        multiqc -->|l1,l2,l3,l4,l5| html_out
+    end
+
+    fastqc_raw -->|l1,l2| trim_galore
+    fastqc_raw -->|l3,l4,l5| star
+    fastqc_trim -->|l1,l2| star
+    star -->|l1,l3| infer
+    star -->|l2,l4,l5| manual
+    infer -->|l1,l3| featurecounts
+    manual -->|l2,l4,l5| featurecounts
+    featurecounts -->|l5| deseq2
+    featurecounts -->|l1,l2,l3,l4| multiqc
+    pheatmap -->|l5| multiqc
