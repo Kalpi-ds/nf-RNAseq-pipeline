@@ -14,17 +14,6 @@ A Nextflow DSL2 pipeline for end-to-end RNA-seq analysis — from raw FASTQ read
 
 ![Pipeline Overview](pipeline_light.svg)
 
-```
-Raw FASTQ → FastQC → Trim Galore → FastQC (post-trim)
-         → STAR alignment
-         → infer_experiment.py (auto strandedness on all BAMs, optional)
-         → featureCounts
-         → merge_counts.py (combine per-sample counts)
-         → id_to_name.py (gene ID → gene name, auto-extracted from GTF)
-         → RunDESeq2.R (DESeq2 differential expression)
-         → cluster_draw_pheatmap.R (heatmap of significant genes)
-         → MultiQC (aggregate QC report)
-```
 
 | Step | Tool | Description |
 |------|------|-------------|
