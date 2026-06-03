@@ -12,6 +12,8 @@ A Nextflow DSL2 pipeline for end-to-end RNA-seq analysis — from raw FASTQ read
 
 ## Pipeline Overview
 
+![Pipeline Overview](pipeline_light.svg)
+
 ```
 Raw FASTQ → FastQC → Trim Galore → FastQC (post-trim)
          → STAR alignment
