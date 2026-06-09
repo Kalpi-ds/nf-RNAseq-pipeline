@@ -59,8 +59,8 @@ All tools are bundled in a single self-contained Singularity image (`singularity
 **External users — copy the image** (simplest):
 
 ```bash
-scp <whitehead-user>@<cluster>:/nfs/BaRC_Public/BaRC_code/pipelines/RNAseq-pipeline/singularity_cache/rnaseqpipe-portable-2.0.sif \
-    /path/to/your/RNAseq-pipeline/singularity_cache/
+wget https://github.com/Kalpi-ds/nf-RNAseq-pipeline/releases/download/v2.0/rnaseqpipe-portable-2.0.sif \
+      -O singularity_cache/rnaseqpipe-portable-2.0.sif
 ```
 
 **External users — rebuild the image** (if copying isn't possible):
