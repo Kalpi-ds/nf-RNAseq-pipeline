@@ -56,7 +56,7 @@ All tools are bundled in a single self-contained Singularity image (`singularity
 
 **Whitehead cluster users:** The pre-built image is already present — no build step needed.
 
-**External users — copy the image** (simplest):
+**External users — copy the image into your singularity_cache folder** (simplest):
 
 ```bash
 wget https://github.com/Kalpi-ds/nf-RNAseq-pipeline/releases/rnaseqpipe-portable-2.0.sif
